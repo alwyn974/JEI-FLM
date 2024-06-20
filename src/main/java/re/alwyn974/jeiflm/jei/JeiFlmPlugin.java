@@ -2,16 +2,18 @@ package re.alwyn974.jeiflm.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.registration.IAdvancedRegistration;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
-import mezz.jei.api.registration.IRecipeCategoryRegistration;
-import mezz.jei.api.registration.IRuntimeRegistration;
+import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.runtime.config.IJeiConfigManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import re.alwyn974.jeiflm.JEI_FLM;
 import re.alwyn974.jeiflm.Resources;
+import re.alwyn974.jeiflm.jei.recipe.JeiFlmRecipe;
+
+import java.util.List;
 
 @JeiPlugin
 public class JeiFlmPlugin implements IModPlugin {
@@ -54,5 +56,11 @@ public class JeiFlmPlugin implements IModPlugin {
     @Override
     public void registerGuiHandlers(final IGuiHandlerRegistration registration) {
         JEI_FLM.getLOGGER().info("JEI GUI Handler registration");
+    }
+
+    @Override
+    public void registerRecipes(IRecipeRegistration registration) {
+        JEI_FLM.getLOGGER().info("JEI Recipe registration");
+        registration.addRecipes(JeiFlmRecipeCategory.RECIPE_TYPE,List.of(new JeiFlmRecipe(new ItemStack(Items.STICKY_PISTON))));
     }
 }
