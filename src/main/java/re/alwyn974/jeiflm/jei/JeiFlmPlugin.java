@@ -2,6 +2,7 @@ package re.alwyn974.jeiflm.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.helpers.IPlatformFluidHelper;
 import mezz.jei.api.registration.*;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.runtime.config.IJeiConfigManager;
@@ -62,5 +63,35 @@ public class JeiFlmPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         JEI_FLM.getLOGGER().info("JEI Recipe registration");
         registration.addRecipes(JeiFlmRecipeCategory.RECIPE_TYPE,List.of(new JeiFlmRecipe(new ItemStack(Items.STICKY_PISTON))));
+    }
+
+    @Override
+    public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+        registration.addRecipeCatalyst(new ItemStack(Items.STICKY_PISTON), JeiFlmRecipeCategory.RECIPE_TYPE);
+    }
+
+    @Override
+    public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+        IModPlugin.super.registerRecipeTransferHandlers(registration);
+    }
+
+    @Override
+    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+        IModPlugin.super.registerVanillaCategoryExtensions(registration);
+    }
+
+    @Override
+    public void registerIngredients(IModIngredientRegistration registration) {
+        IModPlugin.super.registerIngredients(registration);
+    }
+
+    @Override
+    public <T> void registerFluidSubtypes(ISubtypeRegistration registration, IPlatformFluidHelper<T> platformFluidHelper) {
+        IModPlugin.super.registerFluidSubtypes(registration, platformFluidHelper);
+    }
+
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistration registration) {
+        IModPlugin.super.registerItemSubtypes(registration);
     }
 }

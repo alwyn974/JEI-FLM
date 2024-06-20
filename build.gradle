@@ -174,12 +174,14 @@ dependencies {
     // compile against the JEI API but do not include it at runtime
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+    implementation(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
 //    compileOnly("curse.maven:configured-457570:5180900")
     // at runtime, use the full JEI jar for Forge
-    runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
-    runtimeOnly(fg.deobf("curse.maven:mekanism-268560:5125665"))
-    runtimeOnly(fg.deobf("curse.maven:mekanism-generators-268566:5125668"))
-    runtimeOnly(fg.deobf("curse.maven:mekanism-tools-268567:5125669"))
+//    runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+    // replace to runtimeOnly
+    implementation(fg.deobf("curse.maven:mekanism-268560:5125665"))
+    implementation(fg.deobf("curse.maven:mekanism-generators-268566:5125668"))
+    implementation(fg.deobf("curse.maven:mekanism-tools-268567:5125669"))
 //    runtimeOnly(fg.deobf("curse.maven:configured-457570:5180900"))
 }
 
