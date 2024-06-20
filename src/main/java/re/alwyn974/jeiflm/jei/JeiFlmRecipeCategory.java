@@ -44,8 +44,7 @@ public class JeiFlmRecipeCategory implements IRecipeCategory<JeiFlmRecipe> {
 
     @Override
     public @NotNull IDrawable getIcon() {
-//        return this.guiHelper.createDrawableItemStack(new ItemStack(Items.PAPER));
-        return  guiHelper.drawableBuilder(new ResourceLocation("paper"), 0, 0, 18, 18).setTextureSize(18, 18).build();
+        return this.guiHelper.createDrawableItemStack(new ItemStack(Items.PAPER));
     }
 
     @Override
