@@ -6,4 +6,5 @@ public class Resources {
     public static final String MODID = "jei_flm";
     public static final String NAME = "JEI FLM";
     public static final ResourceLocation LOCATION = new ResourceLocation(MODID);
+    public static final ResourceLocation JEI_LOCATION = LOCATION.withPath("jei_plugin");
 }

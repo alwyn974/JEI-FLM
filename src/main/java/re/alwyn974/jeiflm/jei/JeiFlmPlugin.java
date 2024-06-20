@@ -4,6 +4,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IAdvancedRegistration;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
+import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRuntimeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.runtime.config.IJeiConfigManager;
@@ -13,7 +14,7 @@ import re.alwyn974.jeiflm.JEI_FLM;
 import re.alwyn974.jeiflm.Resources;
 
 @JeiPlugin
-public class JeiFLMPlugin implements IModPlugin {
+public class JeiFlmPlugin implements IModPlugin {
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return Resources.LOCATION;
@@ -35,17 +36,23 @@ public class JeiFLMPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerAdvanced(@NotNull final IAdvancedRegistration registration) {
+    public void registerCategories(final IRecipeCategoryRegistration registration) {
+        JEI_FLM.getLOGGER().info("JEI Category registration");
+        registration.addRecipeCategories(new JeiFlmRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+    }
+
+    @Override
+    public void registerAdvanced(final IAdvancedRegistration registration) {
         JEI_FLM.getLOGGER().info("JEI Advanced registration");
     }
 
     @Override
-    public void registerRuntime(@NotNull final IRuntimeRegistration registration) {
+    public void registerRuntime(final IRuntimeRegistration registration) {
         JEI_FLM.getLOGGER().info("JEI Runtime registration");
     }
 
     @Override
-    public void registerGuiHandlers(@NotNull final IGuiHandlerRegistration registration) {
+    public void registerGuiHandlers(final IGuiHandlerRegistration registration) {
         JEI_FLM.getLOGGER().info("JEI GUI Handler registration");
     }
 }
