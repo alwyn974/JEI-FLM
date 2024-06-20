@@ -14,13 +14,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import re.alwyn974.jeiflm.config.Config;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(JEI_FLM.MODID)
+@Mod(Resources.MODID)
 public class JEI_FLM {
-
-    // Define mod id in a common place for everything to reference
-    public static final String MODID = "jei_flm";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -37,9 +35,12 @@ public class JEI_FLM {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
+    public static Logger getLOGGER() {
+        return LOGGER;
+    }
+
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
-
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
@@ -51,7 +52,7 @@ public class JEI_FLM {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = Resources.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
 
         @SubscribeEvent

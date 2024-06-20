@@ -83,6 +83,7 @@ minecraft {
 
         client {
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            jvmArg "-XX:+AllowEnhancedClassRedefinition" // should allow hotswap
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
