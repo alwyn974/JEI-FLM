@@ -2,19 +2,32 @@ package re.alwyn974.jeiflm.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.helpers.IColorHelper;
+import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.helpers.IModIdHelper;
 import mezz.jei.api.helpers.IPlatformFluidHelper;
 import mezz.jei.api.registration.*;
+import mezz.jei.api.runtime.IEditModeConfig;
+import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
+import mezz.jei.api.runtime.IScreenHelper;
 import mezz.jei.api.runtime.config.IJeiConfigManager;
+import mezz.jei.common.Internal;
+import mezz.jei.common.config.*;
+import mezz.jei.common.gui.textures.Textures;
+import mezz.jei.common.input.IInternalKeyMappings;
+import mezz.jei.common.network.IConnectionToServer;
+import mezz.jei.core.util.LoggedTimer;
+import mezz.jei.gui.bookmarks.BookmarkList;
+import mezz.jei.gui.config.IBookmarkConfig;
+import mezz.jei.gui.overlay.bookmarks.BookmarkOverlay;
+import mezz.jei.gui.startup.GuiConfigData;
+import mezz.jei.gui.startup.OverlayHelper;
+import mezz.jei.gui.util.CheatUtil;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 import re.alwyn974.jeiflm.JEI_FLM;
 import re.alwyn974.jeiflm.Resources;
-import re.alwyn974.jeiflm.jei.recipe.JeiFlmRecipe;
-
-import java.util.List;
 
 @JeiPlugin
 public class JeiFlmPlugin implements IModPlugin {
@@ -41,7 +54,7 @@ public class JeiFlmPlugin implements IModPlugin {
     @Override
     public void registerCategories(final IRecipeCategoryRegistration registration) {
         JEI_FLM.getLOGGER().info("JEI Category registration");
-        registration.addRecipeCategories(new JeiFlmRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+//        registration.addRecipeCategories(new JeiFlmRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -52,6 +65,55 @@ public class JeiFlmPlugin implements IModPlugin {
     @Override
     public void registerRuntime(final IRuntimeRegistration registration) {
         JEI_FLM.getLOGGER().info("JEI Runtime registration");
+        LoggedTimer timer = new LoggedTimer();
+
+        IConnectionToServer serverConnection = Internal.getServerConnection();
+        Textures textures = Internal.getTextures();
+        IInternalKeyMappings keyMappings = Internal.getKeyMappings();
+
+        IScreenHelper screenHelper = registration.getScreenHelper();
+        IIngredientManager ingredientManager = registration.getIngredientManager();
+        IEditModeConfig editModeConfig = registration.getEditModeConfig();
+
+        IJeiHelpers jeiHelpers = registration.getJeiHelpers();
+        IColorHelper colorHelper = jeiHelpers.getColorHelper();
+        IModIdHelper modIdHelper = jeiHelpers.getModIdHelper();
+
+        timer.start("Building ingredient filter");
+        GuiConfigData configData = GuiConfigData.create();
+
+        IClientToggleState toggleState = Internal.getClientToggleState();
+        IBookmarkConfig bookmarkConfig = configData.bookmarkConfig();
+
+        IJeiClientConfigs jeiClientConfigs = Internal.getJeiClientConfigs();
+        IClientConfig clientConfig = jeiClientConfigs.getClientConfig();
+        IIngredientGridConfig bookmarkListConfig = jeiClientConfigs.getBookmarkListConfig();
+        IIngredientFilterConfig ingredientFilterConfig = jeiClientConfigs.getIngredientFilterConfig();
+
+        timer.stop();
+
+        CheatUtil cheatUtil = new CheatUtil(ingredientManager);
+
+        BookmarkList bookmarkList = new BookmarkList(ingredientManager, bookmarkConfig, clientConfig);
+        bookmarkConfig.loadBookmarks(ingredientManager, bookmarkList);
+
+        BookmarkOverlay bookmarkOverlay = OverlayHelper.createBookmarkOverlay(
+                ingredientManager,
+                screenHelper,
+                bookmarkList,
+                modIdHelper,
+                keyMappings,
+                bookmarkListConfig,
+                editModeConfig,
+                ingredientFilterConfig,
+                clientConfig,
+                toggleState,
+                serverConnection,
+                textures,
+                colorHelper,
+                cheatUtil
+        );
+        registration.setBookmarkOverlay(bookmarkOverlay);
     }
 
     @Override
@@ -62,12 +124,12 @@ public class JeiFlmPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         JEI_FLM.getLOGGER().info("JEI Recipe registration");
-        registration.addRecipes(JeiFlmRecipeCategory.RECIPE_TYPE,List.of(new JeiFlmRecipe(new ItemStack(Items.STICKY_PISTON))));
+//        registration.addRecipes(JeiFlmRecipeCategory.RECIPE_TYPE,List.of(new JeiFlmRecipe(new ItemStack(Items.STICKY_PISTON))));
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(Items.STICKY_PISTON), JeiFlmRecipeCategory.RECIPE_TYPE);
+//        registration.addRecipeCatalyst(new ItemStack(Items.STICKY_PISTON), JeiFlmRecipeCategory.RECIPE_TYPE);
     }
 
     @Override
